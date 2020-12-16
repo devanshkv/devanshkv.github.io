@@ -7,12 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language><atom:link href="http://devanshkv.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Projects</title>
+      <link>http://devanshkv.github.io/projects/</link>
+      <pubDate>Tue, 15 Dec 2020 18:52:23 -0500</pubDate>
+      
+      <guid>http://devanshkv.github.io/projects/</guid>
+      <description>Coming soon!</description>
+    </item>
+    
+    <item>
       <title>About</title>
       <link>http://devanshkv.github.io/about/</link>
       <pubDate>Tue, 15 Dec 2020 17:37:06 -0500</pubDate>
       
       <guid>http://devanshkv.github.io/about/</guid>
-      <description></description>
+      <description>Hi! I am Devansh Agarwal. I work at the intersection of Deep Learning, High-Performance Computing and Big Data. I have a passion for projects which use any combination of the above and live by the mantra of let&amp;rsquo;s process lots of data and let&amp;rsquo;s do it really fast!</description>
     </item>
     
   </channel>
