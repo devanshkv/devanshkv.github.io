@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <title>Image Translation Autoencoders - Devansh Agarwal</title><meta name="Description" content="Devansh&#39;s personal website"><meta property="og:title" content="Image Translation Autoencoders" />
+<meta property="og:description" content="Font Translation I was recently asked to make a neural network that would translate which translates images of one font to another for a job interview. As I enjoyed making the neural networks, I decided to write it up as a blog and put it online.
+The dataset The dataset had 129 images and was split at 3:1 for training and validation, respectively. Since it was for a job interview, the interviews had already taken out the test set." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://devanshkv.github.io/blog/image_translator/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2021-03-06T14:13:40-05:00" />
+<meta property="article:modified_time" content="2021-03-06T14:13:40-05:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Image Translation Autoencoders"/>
+<meta name="twitter:description" content="Font Translation I was recently asked to make a neural network that would translate which translates images of one font to another for a job interview. As I enjoyed making the neural networks, I decided to write it up as a blog and put it online.
+The dataset The dataset had 129 images and was split at 3:1 for training and validation, respectively. Since it was for a job interview, the interviews had already taken out the test set."/>
+<meta name="application-name" content="Devansh Agarwal">
+<meta name="apple-mobile-web-app-title" content="Devansh Agarwal"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://devanshkv.github.io/blog/image_translator/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Image Translation Autoencoders",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/devanshkv.github.io\/blog\/image_translator\/"
+        },"genre": "blog","keywords": "Weekends","wordCount":  571 ,
+        "url": "http:\/\/devanshkv.github.io\/blog\/image_translator\/","datePublished": "2021-03-06T14:13:40-05:00","dateModified": "2021-03-06T14:13:40-05:00","publisher": {
+            "@type": "Organization",
+            "name": "Devansh Agarwal"},"author": {
+                "@type": "Person",
+                "name": "Devansh Agarwal"
+            },"description": ""
+    }
+    </script><script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "http:\/\/devanshkv.github.io"
+        },{
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Tensorflow",
+            "item": "http://devanshkv.github.io/categories/tensorflow/"
+        },{
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Image Translation Autoencoders"
+            }]
+    }
+</script></head>
+    <body data-header-desktop="auto" data-header-mobile="auto"><script>(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Devansh Agarwal" class="header-logo">Devansh Agarwal</a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/blog/"> Blog </a><a class="menu-item" href="/projects/"> Projects </a><a class="menu-item" href="/resume/Devansh_Agarwal_Resume_WVU.pdf"> Resume </a><a class="menu-item" href="/about/"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Devansh Agarwal" class="header-logo">Devansh Agarwal</a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Search titles or contents..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/blog/" title="">Blog</a><a class="menu-item" href="/projects/" title="">Projects</a><a class="menu-item" href="/resume/Devansh_Agarwal_Resume_WVU.pdf" title="">Resume</a><a class="menu-item" href="/about/" title="">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div><main class="main">
+                <div class="container"><div class="page single special"><h1 class="single-title animated pulse faster">Image Translation Autoencoders</h1><div class="content" id="content"><h1 id="font-translation">Font Translation</h1>
+<p>I was recently asked to make a neural network that would translate which translates images of one font to another for a job interview. As I enjoyed making the neural networks, I decided to write it up as a blog and put it online.</p>
+<h2 id="the-dataset">The dataset</h2>
+<p>The dataset had 129 images and was split at 3:1 for training and validation, respectively. Since it was for a job interview, the interviews had already taken out the test set. The images were 32$\times$32 pixels single channel png files.</p>
+<h3 id="normalization">Normalization</h3>
+<p>The data are read and normalized as follows:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">load_files</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">decode_png</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="p">(</span><span class="n">img</span> <span class="o">/</span> <span class="mf">127.5</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">img</span>
+</code></pre></div><h3 id="augmentaion">Augmentaion</h3>
+<p>The augmentation is faily simple in this case. CNNs are translationally equivariant. Hence I draw from a uniform random distriontin between -2 and 2 and roll the image in both the axes:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="n">shift</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">minval</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+<span class="n">rolled_img</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">shift</span><span class="o">=</span><span class="n">shift</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</code></pre></div><h2 id="neural-network">Neural Network</h2>
+<p>I decided to go foraead with a convolitional autodencoder. The downsample layers were made as follows:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">downsample</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">apply_batchnorm</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2D</span><span class="p">(</span>
+            <span class="n">filters</span><span class="p">,</span>
+            <span class="n">size</span><span class="p">,</span>
+            <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="s2">&#34;same&#34;</span><span class="p">,</span>
+            <span class="n">use_bias</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">apply_batchnorm</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">())</span>
+
+    <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LeakyReLU</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div><p>and each upsample layer:</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">upsample</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">apply_dropout</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+    <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+        <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2DTranspose</span><span class="p">(</span>
+            <span class="n">filters</span><span class="p">,</span>
+            <span class="n">size</span><span class="p">,</span>
+            <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">padding</span><span class="o">=</span><span class="s2">&#34;same&#34;</span><span class="p">,</span>
+            <span class="n">use_bias</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">BatchNormalization</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">apply_dropout</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+
+    <span class="n">result</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">ReLU</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">result</span>
+</code></pre></div><p>and the model,</p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">make_model</span><span class="p">(</span><span class="n">nos</span><span class="p">):</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">down_model</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">downsample</span><span class="p">(</span><span class="n">nos</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">apply_batchnorm</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+        <span class="n">downsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">downsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">downsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">downsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">up_model</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">upsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">apply_dropout</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="n">upsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">apply_dropout</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="n">upsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+        <span class="n">upsample</span><span class="p">(</span><span class="n">nos</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="p">]</span>
+
+    <span class="n">last</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Conv2DTranspose</span><span class="p">(</span>
+        <span class="mi">1</span><span class="p">,</span>
+        <span class="mi">3</span><span class="p">,</span>
+        <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">padding</span><span class="o">=</span><span class="s2">&#34;same&#34;</span><span class="p">,</span>
+        <span class="n">activation</span><span class="o">=</span><span class="s2">&#34;tanh&#34;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">inputs</span>
+
+    <span class="k">for</span> <span class="n">down</span> <span class="ow">in</span> <span class="n">down_model</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">down</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">up</span> <span class="ow">in</span> <span class="n">up_model</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">up</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="o">=</span><span class="n">x</span><span class="p">)</span>
+</code></pre></div><h2 id="hyperparameter-optimzation">Hyperparameter Optimzation</h2>
+<p>With this design, there is only hyper parameter <code>nos</code>, and that determines the number of convolutional filters applied.
+It was determined using <code>optuna</code>, and The best values were found to be 60. The networks trained using the Adam optimizer and Mean squared error loss function until the stopping criteria (when the validation loss does not change for 15 consecutive epochs) was reached.</p>
+<h2 id="usage">Usage</h2>
+<p>You can run <code>main.py</code> for both training and inference.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">usage: main.py <span class="o">[</span>-h<span class="o">]</span> --number NUMBER --operation <span class="o">{</span>train,infer<span class="o">}</span> <span class="o">[</span>--mode <span class="o">{</span>a2b,b2a<span class="o">}]</span> <span class="o">[</span>--input_images INPUT_IMAGES <span class="o">[</span>INPUT_IMAGES ...<span class="o">]]</span> <span class="o">[</span>--model_file MODEL_FILE<span class="o">]</span>
+
+</code></pre></div><h3 id="arguments">Arguments</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">short</th>
+<th style="text-align:left">long</th>
+<th style="text-align:left">default</th>
+<th style="text-align:left">help</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>-h</code></td>
+<td style="text-align:left"><code>--help</code></td>
+<td style="text-align:left"></td>
+<td style="text-align:left">show this help message and exit</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>--number</code></td>
+<td style="text-align:left"><code>None</code></td>
+<td style="text-align:left">Factor for number of conv filters</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>--operation</code></td>
+<td style="text-align:left"><code>None</code></td>
+<td style="text-align:left">to train or to infer?</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>--mode</code></td>
+<td style="text-align:left"><code>a2b</code></td>
+<td style="text-align:left">Image translation direction</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>--input_images</code></td>
+<td style="text-align:left"><code>None</code></td>
+<td style="text-align:left">Path for images to be translated, (only works with the infer mode)</td>
+</tr>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>--model_file</code></td>
+<td style="text-align:left"><code>None</code></td>
+<td style="text-align:left">Model file for inference</td>
+</tr>
+<tr>
+<td style="text-align:left">For example, for training, you can run:</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python3 main.py --operation train --number <span class="m">60</span> --mode a2b
+</code></pre></div><p>and for inference:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">python3 main.py --operation infer --model_file checkpoints_a2b/60/model.238-0.00502.hdf5 --mode a2b --input_images path/to/*png
+</code></pre></div><h2 id="comments">Comments</h2>
+<p>Both models a2b and b2a were trained separately but perform really well! I could have applied a cycleGAN type approach, where both a2b and b2a models train simultaneously. Still, since the stopping criterion for that case is arbitrary, I decided to not use it. One caveat that I can think of while running these models is when we give image b to the a2b model. In this case, the model behaves haphazardly while the cycleGAN trained autoencoders would do fine.</p>
+</div></div></div>
+                </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.81.0">Hugo</a> | Theme - <a href="https://ublogger.netlify.app/?utm_source=http://devanshkv.github.io&utm_medium=footer&utm_campaign=config&utm_term=1.2.0" target="_blank" title="uBlogger 1.2.0"><i class="fas fa-pencil-alt fa-fw"></i> uBlogger</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span>2020 - 2021</span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><script src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script src="/lib/autocomplete/autocomplete.min.js"></script><script src="/lib/lazysizes/lazysizes.min.js"></script><script src="/lib/clipboard/clipboard.min.js"></script><script src="/lib/sharer/sharer.min.js"></script><script src="/lib/katex/katex.min.js"></script><script src="/lib/katex/auto-render.min.js"></script><script>window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":null,"maxResultLength":null,"noResultsFound":"No results found","snippetLength":null}};</script><script src="/js/theme.min.js"></script><script src="/js/jquery-3.5.1.min.js"></script><script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	        ga('create', 'G-HRBQHD2D03', 'auto');
+	        
+	        ga('send', 'pageview');
+	    </script></body>
+</html>
