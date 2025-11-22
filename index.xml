@@ -1,9 +1,0 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
-    <channel>
-        <title>Devansh Agarwal</title>
-        <link>http://devanshkv.github.io/</link>
-        <description>Devansh&#39;s personal website</description>
-        <generator>Hugo -- gohugo.io</generator><language>en</language>
-            <atom:link href="http://devanshkv.github.io/index.xml" rel="self" type="application/rss+xml" />
-        </channel>
-</rss>

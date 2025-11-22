@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Projects - Devansh Agarwal">
+	<h1>Projects</h1>
+	<p>I have created several python packages and apps for various purposes. Few of them are listed here:</p>
+
+	<section class="project">
+		<h2><a href="https://github.com/devanshkv/argmark" target="_blank" rel="noopener">Argmark</a></h2>
+		<p>This is a neat little program that can take in <a href="https://docs.python.org/3/library/argparse.html" target="_blank" rel="noopener">argparse</a> based python scripts and create documentation detailing help and usage.</p>
+	</section>
+
+	<section class="project">
+		<h2><a href="https://github.com/devanshkv/insight_docclean" target="_blank" rel="noopener">DocClean</a></h2>
+		<p>Say you need to scan a document using your phone camera. But the paper is crumpled, or has a coffee mug stain, <a href="https://github.com/devanshkv/insight_docclean" target="_blank" rel="noopener">DocClean</a> can clean it up for you!</p>
+	</section>
+
+	<section class="project">
+		<h2><a href="https://bowser-slurm.herokuapp.com" target="_blank" rel="noopener">Slurm Scripter</a></h2>
+		<p>Need to generate a slurm script for your code? <a href="https://bowser-slurm.herokuapp.com" target="_blank" rel="noopener">Here</a> is a web app!</p>
+	</section>
+
+	<section class="project">
+		<h2><a href="https://github.com/thepetabyteproject/your" target="_blank" rel="noopener">Your</a></h2>
+		<p>Pulsar/FRB search mode data is written in either PSRFITS for Filterbank format. <a href="https://github.com/thepetabyteproject/your" target="_blank" rel="noopener">Your</a> is unified, user-friendly reader/writer for such data.</p>
+	</section>
+
+	<section class="project">
+		<h2><a href="https://github.com/devanshkv/fetch" target="_blank" rel="noopener">FETCH</a></h2>
+		<p>No one likes to sit and label candidates. Use this set of deep learning models for FRB/RFI binary classification and relax.</p>
+	</section>
+</Layout>
+
+<style>
+	h1 {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+		color: #111827;
+	}
+	p {
+		font-size: 1.125rem;
+		color: #4b5563;
+		line-height: 1.75;
+		margin-bottom: 2rem;
+	}
+	.project {
+		margin-bottom: 2rem;
+	}
+	.project h2 {
+		font-size: 1.5rem;
+		margin-bottom: 0.5rem;
+		color: #1f2937;
+	}
+	.project h2 a {
+		color: #2563eb;
+		text-decoration: none;
+	}
+	.project h2 a:hover {
+		text-decoration: underline;
+	}
+	.project p {
+		margin-bottom: 0;
+	}
+	a {
+		color: #2563eb;
+	}
+	a:hover {
+		color: #1d4ed8;
+	}
+</style>
