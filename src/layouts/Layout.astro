@@ -38,6 +38,61 @@ const navigation = [
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
     <title>{pageTitle}</title>
+    <script is:inline>
+      if (window.location.hostname === 'devanshkv.github.io') {
+        const measurementId = 'G-HRBQHD2D03';
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('js', new Date());
+        window.gtag('config', measurementId, {
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false,
+        });
+        const tag = document.createElement('script');
+        tag.async = true;
+        tag.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+        document.head.append(tag);
+      }
+    </script>
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const colorMeta = document.querySelector('meta[name="theme-color"]');
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        let explicitTheme = null;
+
+        try {
+          const savedTheme = localStorage.getItem('devanshkv-theme');
+          if (savedTheme === 'light' || savedTheme === 'dark') explicitTheme = savedTheme;
+        } catch {}
+
+        const applyTheme = (theme) => {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          colorMeta?.setAttribute('content', theme === 'dark' ? '#1c1c1f' : '#f7f8f2');
+          document.querySelector('[data-theme-toggle]')?.setAttribute('aria-pressed', String(theme === 'dark'));
+        };
+
+        applyTheme(explicitTheme || (media.matches ? 'dark' : 'light'));
+        media.addEventListener('change', (event) => {
+          if (!explicitTheme) applyTheme(event.matches ? 'dark' : 'light');
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const toggle = document.querySelector('[data-theme-toggle]');
+          if (!toggle) return;
+          applyTheme(root.dataset.theme);
+          toggle.hidden = false;
+          toggle.addEventListener('click', () => {
+            explicitTheme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            applyTheme(explicitTheme);
+            try {
+              localStorage.setItem('devanshkv-theme', explicitTheme);
+            } catch {}
+          });
+        });
+      })();
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -45,6 +100,7 @@ const navigation = [
       <a class="identity" href="/" aria-label="Devansh Agarwal, home">
         <span class="identity-name">Devansh Agarwal</span>
       </a>
+      <button class="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" data-theme-toggle hidden>Dark mode</button>
       <nav class="site-nav" aria-label="Main navigation">
         {navigation.map(({ href, label }) => (
           <a href={href} aria-current={Astro.url.pathname === href ? 'page' : undefined}>{label}</a>

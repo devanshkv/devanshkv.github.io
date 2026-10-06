@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
+import { runInNewContext } from 'node:vm';
 import { normalizePapers } from '../src/lib/papers.mjs';
 
 // One check covers filtering, duplicate versions, and untrusted API links.
@@ -66,6 +67,46 @@ for (const [file, html] of pages) {
 }
 
 const home = pages.get('index.html');
+// Exercise the built head scripts without loading Google or a browser.
+const headScripts = [...home.split('</head>')[0].matchAll(/<script>([\s\S]*?)<\/script>/g)].map(([, code]) => code);
+assert.equal(headScripts.length, 2, 'Expected analytics and theme initialization before paint');
+for (const [hostname, dark, saved, expected, storageUnavailable] of [
+  ['devanshkv.github.io', true, null, 'dark', false],
+  ['localhost', false, null, 'light', false],
+  ['127.0.0.1', false, 'dark', 'dark', false],
+  ['localhost', true, 'light', 'light', false],
+  ['localhost', true, 'invalid', 'dark', false],
+  ['localhost', true, null, 'dark', true],
+]) {
+  const tags = [];
+  const rootElement = { dataset: {}, style: {} };
+  const window = { location: { hostname }, matchMedia: () => ({ matches: dark, addEventListener() {} }) };
+  const document = {
+    documentElement: rootElement,
+    querySelector: () => null,
+    addEventListener() {},
+    createElement: () => ({}),
+    head: { append: tag => tags.push(tag) },
+  };
+  const localStorage = { getItem() { if (storageUnavailable) throw new Error('Storage unavailable'); return saved; } };
+  const context = { window, document, localStorage };
+  headScripts.forEach(code => runInNewContext(code, context));
+  assert.equal(rootElement.dataset.theme, expected, `Wrong initial theme on ${hostname}`);
+  assert.equal(rootElement.style.colorScheme, expected);
+  if (hostname === 'devanshkv.github.io') {
+    assert.equal(tags.length, 1, 'Load one Google tag');
+    assert.equal(tags[0].src, 'https://www.googletagmanager.com/gtag/js?id=G-HRBQHD2D03');
+    assert.equal(tags[0].async, true);
+    assert.equal(window.dataLayer.length, 2, 'Queue initialization and one page-view config');
+    assert.equal(window.dataLayer[1][0], 'config');
+    assert.equal(window.dataLayer[1][1], 'G-HRBQHD2D03');
+    assert.equal(window.dataLayer[1][2].allow_google_signals, false);
+    assert.equal(window.dataLayer[1][2].allow_ad_personalization_signals, false);
+  } else {
+    assert.equal(tags.length, 0, 'Local previews must not load analytics');
+    assert.equal(window.dataLayer, undefined, 'Local previews must not queue analytics');
+  }
+}
 assert.match(home, /Devansh Agarwal/);
 assert.match(home, /AI systems that scale/);
 assert.match(home, /\/_astro\/portrait-natural\.[^"\s]+\.webp/);
