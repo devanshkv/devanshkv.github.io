@@ -1,0 +1,76 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait-natural.png';
+---
+
+<Layout
+  title="About"
+  description="About Devansh Agarwal: machine learning, scientific computing, physics, cooking, and Star Trek."
+>
+  <div class="container">
+    <header class="page-intro">
+      <p class="eyebrow">About</p>
+      <h1 class="page-title">A little about me.</h1>
+      <p class="page-lead">
+        I’m a machine learning scientist with a PhD in Physics. My work has taken me from astronomical images to medical imaging and multimodal oncology AI.
+      </p>
+    </header>
+
+    <section class="split-layout" aria-label="Biography and portrait">
+      <div class="content-block prose">
+        <p>I started in physics, studying astronomical images during my PhD at West Virginia University. I built machine-learning models for those images and real-time GPU pipelines for radio astronomy.</p>
+        <p>At Bristol Myers Squibb, I moved from astronomical images to medical imaging, developing models for CT and MRI analysis and tumor assessment. I also worked on agentic systems for clinical trials.</p>
+        <p>At Tempus AI, I train large-scale foundation models for imaging and genomics. I also build, orchestrate, and deploy agentic systems that use these models and real-world data to answer complex clinical questions and improve patient outcomes.</p>
+        <p>Outside work, I like cooking and watching Star Trek.</p>
+      </div>
+      <figure>
+        <Image class="portrait" src={portrait} alt="Portrait of Devansh Agarwal" width={800} height={800} quality={90} loading="lazy" />
+        <figcaption>Devansh Agarwal</figcaption>
+      </figure>
+    </section>
+
+    <section class="content-block" aria-labelledby="education-heading">
+      <div class="section-heading">
+        <p class="section-label">Education</p>
+        <h2 id="education-heading">What I studied</h2>
+      </div>
+      <div class="timeline">
+        <article class="timeline-item">
+          <p class="timeline-period"><time datetime="2016">2016</time> – <time datetime="2020">2020</time></p>
+          <div>
+            <h3>PhD, Physics <span class="work-meta">· West Virginia University</span></h3>
+            <p>Scientific machine learning and real-time GPU radio astronomy pipelines.</p>
+          </div>
+        </article>
+        <article class="timeline-item">
+          <p class="timeline-period"><time datetime="2010">2010</time> – <time datetime="2015">2015</time></p>
+          <div>
+            <h3>Integrated BS–MS, Physics <span class="work-meta">· IISER Thiruvananthapuram</span></h3>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="content-block" aria-labelledby="teaching-heading">
+      <div class="section-heading">
+        <p class="section-label">Teaching</p>
+        <h2 id="teaching-heading">Sessions with Machine Learning Tokyo</h2>
+      </div>
+      <p>I’ve also led code-focused sessions on implementing deep learning models from <em>Dive into Deep Learning</em>. The slides, notebooks, and recordings are collected in the teaching archive.</p>
+      <p><a class="text-link" href="/teaching/">View the teaching archive<span class="arrow" aria-hidden="true">→</span></a></p>
+    </section>
+
+    <section class="content-block" aria-labelledby="contact-heading">
+      <div class="section-heading">
+        <p class="section-label">Contact</p>
+        <h2 id="contact-heading">LinkedIn is the best way to reach me</h2>
+      </div>
+      <nav class="work-list" aria-label="Professional profiles">
+        <div class="work-row"><span class="work-number" aria-hidden="true">01</span><a class="text-link" href="https://www.linkedin.com/in/devanshkv/" target="_blank" rel="noreferrer">LinkedIn<span class="arrow" aria-hidden="true">↗</span></a></div>
+        <div class="work-row"><span class="work-number" aria-hidden="true">02</span><a class="text-link" href="https://github.com/devanshkv" target="_blank" rel="noreferrer">GitHub<span class="arrow" aria-hidden="true">↗</span></a></div>
+        <div class="work-row"><span class="work-number" aria-hidden="true">03</span><a class="text-link" href="https://scholar.google.com/citations?user=C9n7eNEAAAAJ" target="_blank" rel="noreferrer">Google Scholar<span class="arrow" aria-hidden="true">↗</span></a></div>
+      </nav>
+    </section>
+  </div>
+</Layout>

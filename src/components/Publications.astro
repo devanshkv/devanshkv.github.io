@@ -1,0 +1,54 @@
+---
+import snapshot from '../data/publications.json';
+
+interface Props { limit?: number; }
+const { limit = 0 } = Astro.props;
+const papers = limit ? snapshot.papers.slice(0, limit) : snapshot.papers;
+---
+
+<div data-publication-feed data-limit={limit}>
+  <ul class="publication-list">
+    {papers.map((paper) => (
+      <li class="publication publication-feed-item">
+        <time class="publication-year" datetime={String(paper.year)}>{paper.year}</time>
+        <div>
+          <a class="publication-title" href={paper.url} target="_blank" rel="noreferrer"><span class="paper-title-text">{paper.title}</span><span class="arrow" aria-hidden="true">↗</span></a>
+          <p class="publication-venue">{paper.venue}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+  <p class="publication-source">Bibliography via <a href="https://openalex.org/A5005791474" target="_blank" rel="noreferrer">OpenAlex</a>. <a href="https://scholar.google.com/citations?user=C9n7eNEAAAAJ" target="_blank" rel="noreferrer">View Google Scholar<span class="arrow" aria-hidden="true">↗</span></a></p>
+</div>
+
+<script>
+  import { normalizePapers, publicationsEndpoint } from '../lib/papers.mjs';
+
+  const feed = document.querySelector<HTMLElement>('[data-publication-feed]');
+  if (feed) {
+    (async () => {
+      try {
+        const response = await fetch(publicationsEndpoint, { credentials: 'omit', signal: AbortSignal.timeout(6000) });
+        if (!response.ok) return;
+        const papers = normalizePapers(await response.json());
+        if (!papers.length) return;
+        const list = feed.querySelector('ul')!;
+        const template = list.firstElementChild!;
+        const limit = Number(feed.dataset.limit) || papers.length;
+        const items = papers.slice(0, limit).map((paper) => {
+          const item = template.cloneNode(true) as HTMLElement;
+          const year = item.querySelector('time')!;
+          year.dateTime = String(paper.year);
+          year.textContent = String(paper.year);
+          item.querySelector<HTMLAnchorElement>('a')!.href = paper.url;
+          item.querySelector('.paper-title-text')!.textContent = paper.title;
+          item.querySelector('.publication-venue')!.textContent = paper.venue;
+          return item;
+        });
+        if (!feed.contains(document.activeElement)) list.replaceChildren(...items);
+      } catch {
+        // Keep the readable, server-rendered bibliography if the source is unavailable.
+      }
+    })();
+  }
+</script>

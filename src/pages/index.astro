@@ -1,0 +1,58 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Publications from '../components/Publications.astro';
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait-natural.png';
+---
+
+<Layout title="Devansh Agarwal">
+  <section class="hero container" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">MACHINE LEARNING &amp; SCIENTIFIC COMPUTING</p>
+      <h1 id="hero-title">Devansh Agarwal</h1>
+      <p class="hero-role">Staff Machine Learning Scientist at Tempus AI</p>
+      <p class="hero-description">I build AI systems that scale. At Tempus, I work on models and agentic systems that bring together medical imaging, genomic data, and clinical information to help improve patient outcomes.</p>
+      <p class="hero-description">During my physics PhD, I built models to find signals in astronomical images. I carried that work into CT and MRI imaging at Bristol Myers Squibb, and now work across a wider range of biological data.</p>
+      <div class="profile-links" aria-label="More about me">
+        <a href="/about/">About me <span aria-hidden="true">↗</span></a>
+        <a href="https://github.com/devanshkv">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="https://scholar.google.com/citations?user=C9n7eNEAAAAJ">Google Scholar <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <figure class="profile-photo">
+      <Image src={portrait} width={800} height={800} quality={90} alt="Devansh Agarwal" loading="eager" fetchpriority="high" />
+      <figcaption>Based in the New York area.</figcaption>
+    </figure>
+  </section>
+
+  <section class="home-section container" aria-labelledby="work-heading">
+    <div class="section-heading">
+      <h2 id="work-heading">Work &amp; research</h2>
+      <a class="text-link" href="/work/">More about my work <span aria-hidden="true">↗</span></a>
+    </div>
+    <div class="home-work-list">
+      <article class="home-work-item">
+        <p class="work-date">2025 — PRESENT</p>
+        <div><h3><a href="/work/#current-work">Tempus AI <span class="arrow" aria-hidden="true">↗</span></a></h3><p>Working across imaging, genomic, and clinical data with multimodal foundation models and agentic systems for oncology.</p></div>
+      </article>
+      <article class="home-work-item">
+        <p class="work-date">2021 — 2025</p>
+        <div><h3>Bristol Myers Squibb</h3><p>Carrying image-based machine learning into CT and MRI data, with work on self-supervised vision models, tumor assessment, and clinical-trial applications.</p></div>
+      </article>
+      <article class="home-work-item">
+        <p class="work-date">2016 — 2020</p>
+        <div><h3>Physics &amp; radio astronomy</h3><p>Studying astronomical images and building models to detect faint signals. My PhD research also involved real-time GPU pipelines for telescope data.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="home-section container" aria-labelledby="publications-heading">
+    <div class="section-heading"><h2 id="publications-heading">Recent publications</h2><a class="text-link" href="/publications/">View publications <span aria-hidden="true">↗</span></a></div>
+    <Publications limit={4} />
+  </section>
+
+  <section class="personal-note container" aria-labelledby="personal-heading">
+    <h2 id="personal-heading">Beyond work</h2>
+    <div><p>I enjoy cooking and Star Trek. I’ve also led deep learning study and coding sessions with Machine Learning Tokyo.</p><a class="text-link" href="/teaching/">Teaching materials <span aria-hidden="true">↗</span></a></div>
+  </section>
+</Layout>

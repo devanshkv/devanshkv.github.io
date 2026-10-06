@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Publications from '../components/Publications.astro';
+---
+
+<Layout
+  title="Publications"
+  description="Research publications by Devansh Agarwal in medical imaging, machine learning, and radio astronomy."
+>
+  <div class="container">
+    <header class="page-intro">
+      <p class="eyebrow">Research</p>
+      <h1 class="page-title">Publications</h1>
+      <p class="page-lead">Research in medical imaging, machine learning, and radio astronomy.</p>
+    </header>
+
+    <section class="content-block" aria-label="Publication bibliography">
+      <Publications />
+    </section>
+  </div>
+</Layout>

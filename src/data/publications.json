@@ -1,0 +1,119 @@
+{
+  "updatedAt": "2026-10-05",
+  "papers": [
+    {
+      "title": "The RRATalog : a Galactic census of rotating radio transients",
+      "year": 2026,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stag787"
+    },
+    {
+      "title": "Twenty-four thousand hours of GREENBURST observations with the GBT",
+      "year": 2026,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stag665"
+    },
+    {
+      "title": "Masked Image Modeling Advances 3D Medical Image Analysis",
+      "year": 2023,
+      "venue": "IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)",
+      "url": "https://doi.org/10.1109/wacv56688.2023.00201"
+    },
+    {
+      "title": "Comprehensive Analysis of a Dense Sample of FRB 121102 Bursts",
+      "year": 2021,
+      "venue": "The Astrophysical Journal",
+      "url": "https://doi.org/10.3847/1538-4357/ac2577"
+    },
+    {
+      "title": "Search for fast radio transients using Arecibo drift-scan observations at 1.4 GHz",
+      "year": 2021,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stab3153"
+    },
+    {
+      "title": "Your: Your Unified Reader",
+      "year": 2020,
+      "venue": "The Journal of Open Source Software",
+      "url": "https://doi.org/10.21105/joss.02750"
+    },
+    {
+      "title": "A targeted search for repeating fast radio bursts associated with gamma-ray bursts",
+      "year": 2020,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/staa3352"
+    },
+    {
+      "title": "Initial results from a real-time FRB search with the GBT",
+      "year": 2020,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/staa1927"
+    },
+    {
+      "title": "FETCH: A deep-learning based classifier for fast transient classification",
+      "year": 2020,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/staa1856"
+    },
+    {
+      "title": "Possible periodic activity in the repeating FRB 121102",
+      "year": 2020,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/staa1237"
+    },
+    {
+      "title": "NeuroDiffEq: A Python package for solving differential equations with neural networks",
+      "year": 2020,
+      "venue": "The Journal of Open Source Software",
+      "url": "https://doi.org/10.21105/joss.01931"
+    },
+    {
+      "title": "A Deep Targeted Search for Fast Radio Bursts from the Sites of Low-redshift Short Gamma-Ray Bursts",
+      "year": 2019,
+      "venue": "The Astrophysical Journal",
+      "url": "https://doi.org/10.3847/1538-4357/ab58c3"
+    },
+    {
+      "title": "A fast radio burst in the direction of the Virgo Cluster",
+      "year": 2019,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stz2574"
+    },
+    {
+      "title": "GBTrans: a commensal search for radio pulses with the Green Bank 20-m telescope",
+      "year": 2019,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stz2424"
+    },
+    {
+      "title": "Non-detection of fast radio bursts from six gamma-ray burst remnants with possible magnetar engines",
+      "year": 2019,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stz2386"
+    },
+    {
+      "title": "A 21 cm pilot survey for pulsars and transients using the Focal L-Band Array for the Green Bank Telescope",
+      "year": 2019,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stz2207"
+    },
+    {
+      "title": "A survey of the Galactic plane for dispersed radio pulses with the Australian Square Kilometre Array Pathfinder",
+      "year": 2019,
+      "venue": "Monthly Notices of the Royal Astronomical Society",
+      "url": "https://doi.org/10.1093/mnras/stz748"
+    },
+    {
+      "title": "PALFA Single-pulse Pipeline: New Pulsars, Rotating Radio Transients, and a Candidate Fast Radio Burst",
+      "year": 2018,
+      "venue": "The Astrophysical Journal",
+      "url": "https://doi.org/10.3847/1538-4357/aaee65"
+    },
+    {
+      "title": "Initial Results from the ALFABURST Survey",
+      "year": 2017,
+      "venue": "Proceedings of the International Astronomical Union",
+      "url": "https://doi.org/10.1017/s1743921317008717"
+    }
+  ]
+}
